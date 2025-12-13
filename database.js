@@ -10,8 +10,22 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // =====================
 // Language
 // =====================
+// ✅ أقوى: يقرأ localStorage، وإذا ما موجودة يقرأ لغة الصفحة نفسها
 export function getLang() {
-  return localStorage.getItem("site_lang") || "ar";
+  const stored = localStorage.getItem("site_lang");
+  if (stored === "ar" || stored === "en") return stored;
+
+  const docLang = (document?.documentElement?.lang || "").toLowerCase();
+  if (docLang.startsWith("en")) return "en";
+  return "ar";
+}
+
+// (اختياري) لو احتجتي تحفظينها من أي مكان
+export function setLang(lang) {
+  const v = (lang === "en") ? "en" : "ar";
+  localStorage.setItem("site_lang", v);
+  document.documentElement.lang = v;
+  document.documentElement.dir  = (v === "ar") ? "rtl" : "ltr";
 }
 
 // =====================
@@ -31,8 +45,8 @@ function pick(row, keys) {
   return "";
 }
 
-function pickLang(row, arKeys, enKeys, fallbackKeys = []) {
-  const lang = getLang();
+// ✅ نمرر lang بدل ما تستدعي getLang كل مرة
+function pickLang(lang, row, arKeys, enKeys, fallbackKeys = []) {
   const keys = lang === "en" ? enKeys : arKeys;
 
   // أولاً جرّب مفاتيح اللغة
@@ -53,6 +67,8 @@ function includesAny(text, arr) {
 // Programs (Majors)  ✅ programs: title_ar, title_en, description_ar, description_en, sort_order, is_active
 // =====================
 export async function getPrograms() {
+  const lang = getLang();
+
   const { data, error } = await supabase
     .from("programs")
     .select("*")
@@ -65,6 +81,7 @@ export async function getPrograms() {
     .filter(r => r.is_active !== false)
     .map(r => {
       const name = pickLang(
+        lang,
         r,
         ["title_ar"],
         ["title_en"],
@@ -72,6 +89,7 @@ export async function getPrograms() {
       );
 
       const desc = pickLang(
+        lang,
         r,
         ["description_ar"],
         ["description_en"],
@@ -103,6 +121,8 @@ export async function programsAsText() {
 // FAQ ✅ faq: question_ar, question_en, answer_ar, answer_en, sort_order, is_active
 // =====================
 export async function getFaq() {
+  const lang = getLang();
+
   const { data, error } = await supabase
     .from("faq")
     .select("*")
@@ -115,6 +135,7 @@ export async function getFaq() {
     .filter(r => r.is_active !== false)
     .map(r => {
       const question = pickLang(
+        lang,
         r,
         ["question_ar"],
         ["question_en"],
@@ -122,6 +143,7 @@ export async function getFaq() {
       );
 
       const answer = pickLang(
+        lang,
         r,
         ["answer_ar"],
         ["answer_en"],
@@ -170,26 +192,38 @@ export async function getBotAnswer(userText) {
 
   const scored = rows.map(r => {
     const trigger = pickLang(
+      lang,
       r,
       ["user_question_ar"],
       ["user_question_en"],
       ["user_question", "user_question_ar", "user_question_en"]
     );
 
-    const keywords = pick(r, ["keywords"]);
+    // ✅ إذا عندك مستقبلًا keywords_ar/keywords_en بيشتغل تلقائي
+    const keywords = pickLang(
+      lang,
+      r,
+      ["keywords_ar", "keywords"],
+      ["keywords_en", "keywords"],
+      ["keywords"]
+    );
+
     const t = norm(trigger);
     const k = norm(keywords);
 
     let score = 0;
 
-    // إذا السؤال يحتوي trigger
-    if (t && q.includes(t)) score += 100 + t.length;
+    // تطابق قوي
+    if (t && (q === t)) score += 200 + t.length;
 
-    // إذا keywords موجودة وبعضها موجود في السؤال
+    // احتواء
+    if (t && (q.includes(t) || t.includes(q))) score += 100 + t.length;
+
+    // keywords
     if (k) {
       const parts = k.split(",").map(x => norm(x)).filter(Boolean);
       const hits = parts.filter(p => p && q.includes(p)).length;
-      score += hits * 10;
+      score += hits * 12;
     }
 
     return { r, score };
@@ -198,13 +232,14 @@ export async function getBotAnswer(userText) {
   scored.sort((a, b) => b.score - a.score);
   const hit = scored[0];
 
-  if (!hit || hit.score <= 0) {
+  if (!hit || hit.score < 20) {
     return lang === "en"
-      ? "I couldn't find a matching answer. Try a shorter question."
-      : "ما لقيت إجابة مطابقة. جرّبي تكتبين السؤال بشكل أقصر.";
+      ? "I couldn't find a matching answer. Try a shorter question or different keywords."
+      : "ما لقيت إجابة مطابقة. جرّبي تكتبين السؤال بشكل أقصر أو بكلمات مختلفة.";
   }
 
   const answer = pickLang(
+    lang,
     hit.r,
     ["bot_answer_ar"],
     ["bot_answer_en"],
