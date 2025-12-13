@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لوحة المشرف</title>
+  <link rel="stylesheet" href="./site.css" />
+  <style>
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row > *{flex:1}
+    textarea{min-height:110px;resize:vertical}
+    .mini{opacity:.85;font-size:.92rem}
+    .tbl{display:grid;gap:10px;margin-top:12px}
+    .item{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08)}
+    .item .top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .btn{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.18);color:#fff;cursor:pointer}
+    .btn.danger{border-color: rgba(255,80,80,.35)}
+    .btn.ghost{background:transparent}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);font-size:.85rem;opacity:.9}
+    input, textarea{
+      width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);color:#fff;
+    }
+    .center{text-align:center}
+  </style>
+</head>
+
+<body>
+<div class="hero-bg">
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="container">
+    <div class="header-row">
+      <div class="logo-wrap">
+        <div class="logo">
+          <img src="https://www.uoh.edu.sa/Ar/Deanships/Deanship-A-R/PublishingImages/IMG_9501.PNG" alt="شعار">
+        </div>
+        <div class="brand-text">
+          <strong id="brandTitle">كلية إدارة الأعمال</strong>
+          <span id="brandSub">جامعة حائل</span>
+        </div>
+      </div>
+
+      <nav>
+        <a class="nav-item" href="index.html"><span id="navHome">الرئيسية</span></a>
+        <a class="nav-item" href="about.html"><span id="navAbout">عن الموقع</span></a>
+        <a class="nav-item" href="faq.html"><span id="navFaq">الأسئلة الشائعة</span></a>
+        <a class="nav-item" href="chatbot.html"><span id="navBot">المساعد الذكي</span></a>
+        <a class="nav-item" href="contact.html"><span id="navContact">للتواصل</span></a>
+      </nav>
+
+      <div class="actions">
+        <button class="icon-btn" id="langBtn" title="تغيير اللغة"></button>
+        <button class="icon-btn" id="logoutBtn" title="تسجيل خروج"></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Page ===== -->
+<main class="page">
+  <div class="container">
+
+    <!-- 🚫 لا توجد صلاحية -->
+    <div id="authGate" class="glass center" style="max-width:720px;margin-inline:auto;display:none;">
+      <h2>ليس لديك صلاحية</h2>
+      <p style="line-height:1.9;">
+        هذه الصفحة مخصصة للمشرف فقط.<br>
+        الرجاء تسجيل الدخول بحساب المشرف.
+      </p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:14px;">
+        <a class="btn" href="admin-login.html">تسجيل دخول المشرف</a>
+        <a class="btn ghost" href="index.html">العودة للرئيسية</a>
+      </div>
+    </div>
+
+    <!-- ✅ لوحة المشرف -->
+    <div id="adminPanel" class="glass" style="max-width:1100px;margin-inline:auto;display:none;">
+
+      <div class="top" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+        <h2 style="margin:0;">لوحة إدارة الأسئلة الشائعة</h2>
+        <span class="pill" id="adminEmail">—</span>
+      </div>
+
+      <!-- نموذج إضافة / تعديل -->
+      <div class="card" style="margin-top:14px;">
+        <div class="row">
+          <div>
+            <div class="mini">سؤال عربي</div>
+            <input id="q_ar">
+          </div>
+          <div>
+            <div class="mini">Question (EN)</div>
+            <input id="q_en">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <div class="mini">جواب عربي</div>
+            <textarea id="a_ar"></textarea>
+          </div>
+          <div>
+            <div class="mini">Answer (EN)</div>
+            <textarea id="a_en"></textarea>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <div class="mini">ترتيب</div>
+            <input id="sort" type="number" value="0">
+          </div>
+          <div>
+            <div class="mini">مفعل</div>
+            <input id="active" type="checkbox" checked style="width:auto">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" id="addBtn">إضافة سؤال</button>
+          <button class="btn ghost" id="resetBtn">تفريغ</button>
+          <div id="msg"></div>
+        </div>
+      </div>
+
+      <!-- قائمة الأسئلة -->
+      <div class="tbl" id="list"></div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <div class="rights">جميع الحقوق محفوظة لجامعة حائل - كلية ادارة الأعمال 2025-2026</div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script type="module">
+import { initLang } from "./i18n.js";
+initLang();
+</script>
+
+<script type="module">
+import { supabase } from "./database.js";
+
+const gate  = document.getElementById("authGate");
+const panel = document.getElementById("adminPanel");
+const adminEmail = document.getElementById("adminEmail");
+const logoutBtn = document.getElementById("logoutBtn");
+
+async function requireAuth(){
+  const { data } = await supabase.auth.getUser();
+  if(!data?.user){
+    panel.style.display = "none";
+    gate.style.display = "block";
+    return null;
+  }
+  adminEmail.textContent = data.user.email;
+  gate.style.display = "none";
+  panel.style.display = "block";
+  return data.user;
+}
+
+logoutBtn.onclick = async () => {
+  await supabase.auth.signOut();
+  location.href = "index.html";
+};
+
+const user = await requireAuth();
+if(user){
+  // هنا يبقى كود load() وإدارة الأسئلة كما هو عندك
+}
+</script>
+
+</body>
+</html>

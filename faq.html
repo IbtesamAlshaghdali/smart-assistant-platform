@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>الأسئلة الشائعة</title>
+  <link rel="stylesheet" href="./site.css" />
+  <style>
+    .faq-item{ background: rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18); border-radius:16px; overflow:hidden; }
+    .faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; background:transparent; border:0; color:#fff; cursor:pointer; font:inherit; text-align:start; }
+    .faq-q:hover{ background: rgba(255,255,255,.06); }
+    .faq-icon{ width:28px; height:28px; display:grid; place-items:center; border-radius:10px; border:1px solid rgba(255,255,255,.18); background: rgba(0,0,0,.15); flex:0 0 auto; transition: transform .18s ease; }
+    .faq-item[open] .faq-icon{ transform: rotate(180deg); }
+    .faq-a{ padding:0 16px 14px; opacity:.92; line-height:1.9; }
+    summary{ list-style:none; }
+    summary::-webkit-details-marker{ display:none; }
+  </style>
+</head>
+
+<body>
+  <div class="hero-bg">
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <div class="header-row">
+          <div class="logo-wrap">
+            <div class="logo">
+              <img src="https://www.uoh.edu.sa/Ar/Deanships/Deanship-A-R/PublishingImages/IMG_9501.PNG" alt="شعار">
+            </div>
+            <div class="brand-text">
+              <strong id="brandTitle">كلية إدارة الأعمال</strong>
+              <span id="brandSub">جامعة حائل</span>
+            </div>
+          </div>
+
+          <nav>
+            <a class="nav-item" href="index.html"><span id="navHome">الرئيسية</span></a>
+            <a class="nav-item" href="about.html"><span id="navAbout">عن الموقع</span></a>
+            <a class="nav-item" href="faq.html"><span id="navFaq">الأسئلة الشائعة</span></a>
+            <a class="nav-item" href="chatbot.html"><span id="navBot">المساعد الذكي</span></a>
+            <a class="nav-item" href="contact.html"><span id="navContact">للتواصل</span></a>
+          </nav>
+
+          <div class="actions">
+            <button class="icon-btn" id="langBtn" title="تغيير اللغة" aria-label="تغيير اللغة">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 5h7"/><path d="M9 3v2"/><path d="M6 21s3-3 3-7"/><path d="M4 9h7"/>
+                <path d="M13 21l4-11 4 11"/><path d="M15 16h4"/>
+              </svg>
+            </button>
+
+            <a class="icon-btn" href="admin-login.html" title="تسجيل دخول المشرف" aria-label="تسجيل دخول المشرف">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/>
+                <path d="M4 21a8 8 0 0 1 16 0"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page -->
+    <main class="page">
+      <div class="container">
+        <div class="glass" style="max-width: 980px; margin-inline:auto;">
+          <h2 class="center" id="faqTitle" style="margin:0 0 12px;">الأسئلة الشائعة</h2>
+
+          <div id="faqList" class="grid" style="grid-template-columns:1fr; margin-top:12px">
+            <div id="faqStatus">جاري التحميل…</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-row">
+          <div class="rights" id="rights">جميع الحقوق محفوظة لجامعة حائل - كلية ادارة الأعمال 2025-2026</div>
+          <div class="social" aria-label="روابط التواصل">
+            <a href="https://x.com/_UOH" target="_self" rel="noopener" title="X">X</a>
+            <a href="https://www.youtube.com/@UOHTubeSA" target="_self" rel="noopener" title="YouTube">YT</a>
+            <a href="https://login.uoh.edu.sa" target="_self" rel="noopener" title="بوابة الدخول الموحد">SSO</a>
+            <a href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_self" rel="noopener" title="موقع كلية إدارة الأعمال">UOH</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { initLang } from "./i18n.js";
+    import { getFaq } from "./database.js";
+
+    initLang();
+
+    const listEl = document.getElementById("faqList");
+    const statusEl = document.getElementById("faqStatus");
+    const langBtn = document.getElementById("langBtn");
+
+    const uiText = () => {
+      const lang = localStorage.getItem("site_lang") || "ar";
+      return {
+        loading: lang === "en" ? "Loading…" : "جاري التحميل…",
+        empty:   lang === "en" ? "No questions available." : "لا توجد أسئلة حالياً.",
+        error:   lang === "en" ? "Error loading data." : "صار خطأ في تحميل البيانات."
+      };
+    };
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    async function renderFaq(){
+      const t = uiText();
+      listEl.innerHTML = `<div id="faqStatus">${t.loading}</div>`;
+
+      try{
+        const items = await getFaq(); // ✅ يرجع حسب اللغة
+        if(!items.length){
+          listEl.innerHTML = `<div id="faqStatus">${t.empty}</div>`;
+          return;
+        }
+
+        listEl.innerHTML = items.map(x => `
+          <details class="faq-item">
+            <summary class="faq-q">
+              <span>${escapeHtml(x.question)}</span>
+              <span class="faq-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="faq-a">${escapeHtml(x.answer)}</div>
+          </details>
+        `).join("");
+
+      }catch(e){
+        console.error(e);
+        const t = uiText();
+        listEl.innerHTML = `<div id="faqStatus">${t.error}</div>`;
+      }
+    }
+
+    await renderFaq();
+
+    // ✅ عند تغيير اللغة: نعيد جلب FAQ علشان تجي عربي/إنجليزي
+    langBtn?.addEventListener("click", async () => {
+      setTimeout(renderFaq, 0);
+    });
+  </script>
+</body>
+</html>

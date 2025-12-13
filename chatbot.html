@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>المساعد الذكي</title>
+  <link rel="stylesheet" href="./site.css" />
+  <style>
+    .chat-wrap{ max-width: 980px; margin-inline:auto; }
+    .chat-box{ display:flex; flex-direction:column; gap:10px; min-height: 360px; }
+    .msg{ padding:12px 14px; border-radius:14px; border:1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.08); line-height:1.8; }
+    .msg.you{ align-self:flex-start; }
+    .msg.bot{ align-self:flex-end; background: rgba(0,0,0,.18); }
+    .chat-input{ display:flex; gap:10px; margin-top:12px; }
+    .chat-input input{ flex:1; padding:12px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.08); color:#fff; }
+    .chat-input button{ padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background: rgba(0,0,0,.18); color:#fff; cursor:pointer; }
+  </style>
+</head>
+
+<body>
+  <div class="hero-bg">
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <div class="header-row">
+          <div class="logo-wrap">
+            <div class="logo">
+              <img src="https://www.uoh.edu.sa/Ar/Deanships/Deanship-A-R/PublishingImages/IMG_9501.PNG" alt="شعار">
+            </div>
+            <div class="brand-text">
+              <strong id="brandTitle">كلية إدارة الأعمال</strong>
+              <span id="brandSub">جامعة حائل</span>
+            </div>
+          </div>
+
+          <nav>
+            <a class="nav-item" href="index.html"><span id="navHome">الرئيسية</span></a>
+            <a class="nav-item" href="about.html"><span id="navAbout">عن الموقع</span></a>
+            <a class="nav-item" href="faq.html"><span id="navFaq">الأسئلة الشائعة</span></a>
+            <a class="nav-item" href="chatbot.html"><span id="navBot">المساعد الذكي</span></a>
+            <a class="nav-item" href="contact.html"><span id="navContact">للتواصل</span></a>
+          </nav>
+
+          <div class="actions">
+            <button class="icon-btn" id="langBtn" title="تغيير اللغة" aria-label="تغيير اللغة">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 5h7"/><path d="M9 3v2"/><path d="M6 21s3-3 3-7"/><path d="M4 9h7"/>
+                <path d="M13 21l4-11 4 11"/><path d="M15 16h4"/>
+              </svg>
+            </button>
+
+            <a class="icon-btn" href="admin-login.html" title="تسجيل دخول المشرف" aria-label="تسجيل دخول المشرف">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/>
+                <path d="M4 21a8 8 0 0 1 16 0"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="container chat-wrap">
+        <div class="glass">
+          <h2 class="center" id="botTitle" style="margin:0 0 10px;">المساعد الذكي</h2>
+          <div class="hint" style="margin-bottom:12px;">
+            <span id="botHint">جرّب تسأل: “تخصصات كلية إدارة الأعمال جامعة حائل”.</span>
+          </div>
+
+          <div id="chatBox" class="chat-box"></div>
+
+          <div class="chat-input">
+            <input id="chatInput" type="text" placeholder="اكتب سؤالك هنا..." />
+            <button id="sendBtn" type="button">إرسال</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-row">
+          <div class="rights" id="rights">جميع الحقوق محفوظة لجامعة حائل - كلية ادارة الأعمال 2025-2026</div>
+          <div class="social" aria-label="روابط التواصل">
+            <a href="https://x.com/_UOH" target="_self" rel="noopener" title="X">X</a>
+            <a href="https://www.youtube.com/@UOHTubeSA" target="_self" rel="noopener" title="YouTube">YT</a>
+            <a href="https://login.uoh.edu.sa" target="_self" rel="noopener" title="بوابة الدخول الموحد">SSO</a>
+            <a href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_self" rel="noopener" title="موقع كلية إدارة الأعمال">UOH</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { initLang } from "./i18n.js";
+    import { getBotAnswer } from "./database.js";
+
+    initLang();
+
+    const box = document.getElementById("chatBox");
+    const input = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const langBtn = document.getElementById("langBtn");
+
+    const uiText = () => {
+      const lang = localStorage.getItem("site_lang") || "ar";
+      return {
+        placeholder: lang === "en" ? "Type your question here..." : "اكتب سؤالك هنا...",
+        send:        lang === "en" ? "Send" : "إرسال",
+        welcome:     lang === "en"
+          ? "Hi! Ask me anything about the college, majors, study plan, or FAQs."
+          : "مرحباً! اسأليني عن الكلية، التخصصات، الخطة الدراسية، أو الأسئلة الشائعة.",
+        typing:      lang === "en" ? "Thinking…" : "جاري التفكير…"
+      };
+    };
+
+    function addMsg(text, who){
+      const div = document.createElement("div");
+      div.className = `msg ${who}`;
+      div.textContent = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+      return div;
+    }
+
+    function refreshUi(){
+      const t = uiText();
+      input.placeholder = t.placeholder;
+      sendBtn.textContent = t.send;
+    }
+
+    refreshUi();
+
+    // رسالة ترحيب
+    box.innerHTML = "";
+    addMsg(uiText().welcome, "bot");
+
+    async function send(){
+      const q = input.value.trim();
+      if(!q) return;
+      input.value = "";
+
+      addMsg(q, "you");
+
+      const loadingMsg = addMsg(uiText().typing, "bot");
+      try{
+        const a = await getBotAnswer(q); // ✅ يرجع حسب اللغة من DB
+        loadingMsg.textContent = a;
+      }catch(e){
+        console.error(e);
+        loadingMsg.textContent = (localStorage.getItem("site_lang") === "en")
+          ? "Error loading answer."
+          : "صار خطأ في جلب الإجابة.";
+      }
+    }
+
+    sendBtn.addEventListener("click", send);
+    input.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") send();
+    });
+
+    // ✅ عند تغيير اللغة: نحدّث placeholder/زر الإرسال/رسالة الترحيب
+    langBtn?.addEventListener("click", () => {
+      setTimeout(() => {
+        refreshUi();
+        box.innerHTML = "";
+        addMsg(uiText().welcome, "bot");
+      }, 0);
+    });
+  </script>
+</body>
+</html>

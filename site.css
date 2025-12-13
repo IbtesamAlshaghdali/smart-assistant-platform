@@ -1,0 +1,297 @@
+:root{
+  --shadow:0 18px 40px rgba(0,0,0,.20);
+  --radius:18px;
+  --glass: rgba(255,255,255,.10);
+  --border: rgba(255,255,255,.18);
+
+  /*  لمسات صفراء هادئة */
+  --accent: #f6d77a;
+  --accent-soft: rgba(246,215,122,.18);
+  --accent-border: rgba(246,215,122,.35);
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui;background:#0b1220}
+a{color:inherit;text-decoration:none}
+
+/* ===== Hero Background ===== */
+.hero-bg{
+  min-height:100vh;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.70)),
+    url("https://www.uoh.edu.sa/Ar/Colleges/PublishingImages/COLL/BA.png") center/cover no-repeat fixed;
+  display:flex;
+  flex-direction:column;
+}
+
+.container{
+  width:min(1200px, 100%);
+  margin:0 auto;
+  padding:0 18px;
+}
+
+/* ===== Header ===== */
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,.35);
+  border-bottom: 1px solid var(--accent-border);
+  color:#fff;
+}
+
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 0;
+}
+
+/* ===== Logo (بدون أيقونة خلفه) ===== */
+.logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:260px;
+}
+
+.logo{
+  width:72px;
+  height:72px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  background: transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+
+.brand-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1.2;
+}
+
+.brand-text strong{
+  font-size:14px;
+  color: var(--accent);
+}
+
+.brand-text span{
+  font-size:12px;
+  opacity:.85;
+}
+
+/* ===== Navigation ===== */
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex:1;
+  flex-wrap:wrap;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+  user-select:none;
+  color:#fff;
+}
+
+.nav-item:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.16);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.nav-item svg{
+  width:18px;
+  height:18px;
+  transition:transform .25s ease;
+}
+
+.nav-item:hover svg{
+  transform:rotate(-8deg) scale(1.05);
+}
+
+/* ===== Actions ===== */
+.actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  min-width:260px;
+}
+
+.icon-btn{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  color:#fff;
+  cursor:pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.icon-btn:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.16);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.icon-btn svg{width:20px;height:20px}
+
+/* ===== Page Centering ===== */
+.page{
+  flex:1;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  padding: 26px 18px 18px;
+}
+
+.page > .container{
+  margin:0 auto !important;
+  display:flex !important;
+  justify-content:center !important;
+}
+
+.glass{
+  width:min(980px, 100%);
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  padding: 22px;
+  color:#fff;
+  margin:0 auto !important;
+}
+
+.center{text-align:center}
+
+/* ===== Buttons ===== */
+.btn-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:11px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.20);
+  color:#fff;
+  transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  background:rgba(0,0,0,.32);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ===== Cards ===== */
+.card{
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+.grid{
+  display:grid;
+  gap:12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ===== Responsive ===== */
+@media (max-width:900px){
+  .logo-wrap,.actions{min-width:auto}
+  nav{justify-content:flex-start}
+  .grid{grid-template-columns:1fr}
+}
+
+/* ===== Footer ===== */
+footer{
+  background: rgba(0,0,0,.45);
+  border-top: 1px solid var(--accent-border);
+  color:#fff;
+  padding:14px 0;
+  backdrop-filter: blur(10px);
+}
+
+.footer-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  opacity:.95;
+}
+
+.rights{
+  font-size:13px;
+  opacity:.9;
+}
+
+.social{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.social a{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.social a:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.16);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.social svg{
+  width:18px;
+  height:18px;
+  color:#fff;
+}

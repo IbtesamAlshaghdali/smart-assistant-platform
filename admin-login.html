@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تسجيل دخول المشرف</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+
+<body>
+  <div class="hero-bg">
+
+    <!-- Header موحد -->
+    <header>
+      <div class="container">
+        <div class="header-row">
+          <div class="logo-wrap">
+            <div class="logo">
+              <img src="https://www.uoh.edu.sa/Ar/Deanships/Deanship-A-R/PublishingImages/IMG_9501.PNG" alt="شعار">
+            </div>
+            <div class="brand-text">
+              <strong id="brandTitle">كلية إدارة الأعمال</strong>
+              <span id="brandSub">جامعة حائل</span>
+            </div>
+          </div>
+
+          <nav>
+            <a class="nav-item" href="index.html"><span id="navHome">الرئيسية</span></a>
+            <a class="nav-item" href="about.html"><span id="navAbout">عن الموقع</span></a>
+            <a class="nav-item" href="faq.html"><span id="navFaq">الأسئلة الشائعة</span></a>
+            <a class="nav-item" href="chatbot.html"><span id="navBot">المساعد الذكي</span></a>
+            <a class="nav-item" href="contact.html"><span id="navContact">للتواصل</span></a>
+          </nav>
+
+          <div class="actions">
+            <button class="icon-btn" id="langBtn" title="تغيير اللغة" aria-label="تغيير اللغة">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 5h7"/><path d="M9 3v2"/><path d="M6 21s3-3 3-7"/><path d="M4 9h7"/>
+                <path d="M13 21l4-11 4 11"/><path d="M15 16h4"/>
+              </svg>
+            </button>
+            <a class="icon-btn" href="admin-login.html" title="تسجيل دخول المشرف" aria-label="تسجيل دخول المشرف">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/>
+                <path d="M4 21a8 8 0 0 1 16 0"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page -->
+    <main class="page">
+      <div class="container">
+        <div class="glass" style="max-width:720px;margin-inline:auto;">
+          <h2 class="center" style="margin:0 0 10px;" id="adminLoginTitle">تسجيل دخول المشرف</h2>
+
+          <div class="grid" style="grid-template-columns:1fr;gap:12px;margin-top:14px;">
+            <div class="card">
+              <label style="display:block;opacity:.9;margin-bottom:6px;" id="emailLbl">البريد الإلكتروني</label>
+              <input id="email" type="email" placeholder="name@example.com"
+                     style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;">
+            </div>
+
+            <div class="card">
+              <label style="display:block;opacity:.9;margin-bottom:6px;" id="passLbl">كلمة المرور</label>
+              <input id="password" type="password" placeholder="••••••••"
+                     style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;">
+            </div>
+
+            <button id="loginBtn"
+              style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.18);color:#fff;cursor:pointer;">
+              دخول
+            </button>
+
+            <div id="msg" style="opacity:.92;"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer موحد -->
+    <footer>
+      <div class="container">
+        <div class="footer-row">
+          <div class="rights" id="rights">جميع الحقوق محفوظة لجامعة حائل - كلية ادارة الأعمال 2025-2026</div>
+          <div class="social" aria-label="روابط التواصل">
+            <a href="https://x.com/_UOH" target="_self" rel="noopener" title="X">X</a>
+            <a href="https://www.youtube.com/@UOHTubeSA" target="_self" rel="noopener" title="YouTube">YT</a>
+            <a href="https://login.uoh.edu.sa" target="_self" rel="noopener" title="بوابة الدخول الموحد">SSO</a>
+            <a href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_self" rel="noopener" title="موقع كلية إدارة الأعمال">UOH</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { initLang } from "./i18n.js";
+    initLang();
+  </script>
+
+  <script type="module">
+    import { supabase } from "./database.js";
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const msg = document.getElementById("msg");
+    const btn = document.getElementById("loginBtn");
+
+    btn.addEventListener("click", async () => {
+      msg.textContent = "";
+      btn.disabled = true;
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.value.trim(),
+        password: password.value
+      });
+
+      btn.disabled = false;
+
+      if (error) {
+        msg.textContent = "فشل تسجيل الدخول. تأكد من البريد وكلمة المرور.";
+        console.error(error);
+        return;
+      }
+
+      window.location.href = "admin.html";
+    });
+  </script>
+</body>
+</html>
