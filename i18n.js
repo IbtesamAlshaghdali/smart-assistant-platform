@@ -76,23 +76,22 @@ export function initLang() {
       hint: "Try asking the bot: “Business Administration majors at University of Hail”.",
 
       // ===== About =====
-      aboutTitle: "About",
-      aboutLead:
-        "A digital platform for Business Administration students at the University of Hail, designed to make academic information and services easier to access in one place.",
+aboutTitle: "About",
+aboutLead:
+  "A digital platform dedicated to Business Administration students at the University of Hail, aiming to facilitate access to academic information and services in one place.",
 
-      aboutCard1Title: "Website Idea",
-      aboutCard1Text:
-        "Providing a support platform based on FAQs and a smart assistant to reduce student effort and save time.",
+aboutCard1Title: "Website Idea",
+aboutCard1Text:
+  "Providing a support platform based on automated responses and frequently asked questions to reduce student effort and save time when searching for academic inquiries.",
 
-      aboutCard2Title: "Goals",
-      aboutGoal1: "Collect important information in one place.",
-      aboutGoal2: "Make it easier to access study plans and majors.",
-      aboutGoal3: "Improve the digital student experience.",
+aboutCard2Title: "Goals",
+aboutGoal1: "Collect important information in one place.",
+aboutGoal2: "Make it easier to access answers.",
+aboutGoal3: "Improve the digital student experience.",
 
-      aboutCard3Title: "Aspirations",
-      aboutAsp1: "To become the primary reference for college students.",
-      aboutAsp2: "To become an official section within the College of Business Administration website.",
-
+aboutCard3Title: "Aspirations",
+aboutAsp1: "To become the primary reference for college students.",
+aboutAsp2: "To become an official section within the College of Business Administration website.",
       // ===== Pages =====
       faqTitle: "Frequently Asked Questions",
       botTitle: "Smart Assistant",
