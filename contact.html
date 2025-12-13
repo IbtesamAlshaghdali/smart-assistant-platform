@@ -5,14 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>للتواصل</title>
   <link rel="stylesheet" href="./site.css" />
+
+  <style>
+    /* ===== Contact cards ===== */
+    .contact-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .contact-card{
+      text-align:center;
+      cursor:pointer;
+      transition: transform .35s ease;
+    }
+
+    .contact-card:hover{
+      transform: translateY(-4px);
+    }
+
+    .contact-icon{
+      width:44px;
+      height:44px;
+      margin-inline:auto;
+      margin-bottom:10px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      transition: transform .35s ease, background .35s ease, border-color .35s ease;
+      font-weight:700;
+    }
+
+    .contact-card:hover .contact-icon{
+      transform: rotate(-6deg) scale(1.15);
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.30);
+    }
+
+    .contact-icon svg{
+      width:20px;
+      height:20px;
+      display:block;
+    }
+
+    /* ===== Icon colors ===== */
+    .icon-x{
+      background: rgba(0,0,0,.35);
+      border-color: rgba(255,255,255,.22);
+    }
+    .icon-x svg{ fill:#fff; }
+
+    .icon-yt svg{ fill:#ff4d4d; }
+    .icon-sso{ color:#6fb7ff; }
+    .icon-uoh{ color:#7dd3a7; }
+
+    @media (max-width:900px){
+      .contact-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <div class="hero-bg">
-    <!-- Header -->
+
+    <!-- ===== Header ===== -->
     <header>
       <div class="container">
         <div class="header-row">
+
           <div class="logo-wrap">
             <div class="logo">
               <img src="https://www.uoh.edu.sa/Ar/Deanships/Deanship-A-R/PublishingImages/IMG_9501.PNG" alt="شعار">
@@ -46,54 +110,88 @@
               </svg>
             </a>
           </div>
+
         </div>
       </div>
     </header>
 
+    <!-- ===== Page ===== -->
     <main class="page">
       <div class="container">
-        <div class="glass center" style="max-width: 980px; margin-inline:auto;">
-          <h2 id="contactTitle" style="margin:0 0 14px;">للتواصل</h2>
+        <div class="glass center" style="max-width:980px;margin-inline:auto;">
+          <h2 id="contactTitle" style="margin:0 0 16px;">للتواصل</h2>
 
-          <div class="grid" style="grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px;">
-            <a class="card" href="https://x.com/_UOH" target="_self" rel="noopener">
-              <strong id="contactXTitle">منصة X</strong>
-              <div id="contactXVal" style="opacity:.9; margin-top:6px;">@_UOH</div>
-            </a>
+          <div class="contact-grid">
 
-            <a class="card" href="https://www.youtube.com/@UOHTubeSA" target="_self" rel="noopener">
+            <a class="card contact-card" href="https://www.youtube.com/@UOHTubeSA" target="_blank" rel="noopener">
+              <div class="contact-icon icon-yt">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M23.498 6.186a2.99 2.99 0 0 0-2.105-2.117C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.393.57A2.99 2.99 0 0 0 .502 6.186 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .502 5.814 2.99 2.99 0 0 0 2.105 2.117C4.495 20.5 12 20.5 12 20.5s7.505 0 9.393-.57a2.99 2.99 0 0 0 2.105-2.117A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.502-5.814z"/>
+                  <path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#0b1220"/>
+                </svg>
+              </div>
               <strong id="contactYTTitle">يوتيوب</strong>
-              <div id="contactYTVal" style="opacity:.9; margin-top:6px;">@UOHTubeSA</div>
+              <div id="contactYTVal" style="opacity:.9;margin-top:6px;">@UOHTubeSA</div>
             </a>
 
-            <a class="card" href="https://login.uoh.edu.sa" target="_self" rel="noopener">
-              <strong id="contactSSOTitle">بوابة الدخول الموحد</strong>
-              <div id="contactSSOVal" style="opacity:.9; margin-top:6px;">login.uoh.edu.sa</div>
+            <a class="card contact-card" href="https://x.com/_UOH" target="_blank" rel="noopener">
+              <div class="contact-icon icon-x">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.244 2H21l-6.545 7.48L22 22h-6.828l-5.354-7.007L3.79 22H1l7.02-8.03L2 2h6.828l4.83 6.393L18.244 2z"/>
+                </svg>
+              </div>
+              <strong id="contactXTitle">منصة X</strong>
+              <div id="contactXVal" style="opacity:.9;margin-top:6px;">@_UOH</div>
             </a>
 
-            <a class="card" href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_self" rel="noopener">
+            <a class="card contact-card" href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_blank" rel="noopener">
+              <div class="contact-icon icon-uoh">UOH</div>
               <strong id="contactCollegeTitle">موقع كلية إدارة الأعمال</strong>
-              <div id="contactCollegeVal" style="opacity:.9; margin-top:6px;">uoh.edu.sa</div>
+              <div id="contactCollegeVal" style="opacity:.9;margin-top:6px;">uoh.edu.sa</div>
             </a>
+
+            <a class="card contact-card" href="https://login.uoh.edu.sa" target="_blank" rel="noopener">
+              <div class="contact-icon icon-sso">SSO</div>
+              <strong id="contactSSOTitle">بوابة الدخول الموحد</strong>
+              <div id="contactSSOVal" style="opacity:.9;margin-top:6px;">login.uoh.edu.sa</div>
+            </a>
+
           </div>
         </div>
       </div>
     </main>
 
-    <!-- Footer -->
+    <!-- ===== Footer (SAME AS INDEX) ===== -->
     <footer>
       <div class="container">
         <div class="footer-row">
           <div class="rights" id="rights">جميع الحقوق محفوظة لجامعة حائل - كلية ادارة الأعمال 2025-2026</div>
+
           <div class="social" aria-label="روابط التواصل">
-            <a href="https://x.com/_UOH" target="_self" rel="noopener" title="X">X</a>
-            <a href="https://www.youtube.com/@UOHTubeSA" target="_self" rel="noopener" title="YouTube">YT</a>
-            <a href="https://login.uoh.edu.sa" target="_self" rel="noopener" title="بوابة الدخول الموحد">SSO</a>
-            <a href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_self" rel="noopener" title="موقع كلية إدارة الأعمال">UOH</a>
+            <!-- X -->
+            <a class="social-btn x" href="https://x.com/_UOH" target="_blank" rel="noopener" title="X" aria-label="X">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2H21l-6.545 7.48L22 22h-6.828l-5.354-7.007L3.79 22H1l7.02-8.03L2 2h6.828l4.83 6.393L18.244 2z"/>
+              </svg>
+            </a>
+
+            <!-- YouTube -->
+            <a class="social-btn yt" href="https://www.youtube.com/@UOHTubeSA" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M23.498 6.186a2.99 2.99 0 0 0-2.105-2.117C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.393.57A2.99 2.99 0 0 0 .502 6.186 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .502 5.814 2.99 2.99 0 0 0 2.105 2.117C4.495 20.5 12 20.5 12 20.5s7.505 0 9.393-.57a2.99 2.99 0 0 0 2.105-2.117A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+
+            <!-- SSO -->
+            <a class="social-btn sso" href="https://login.uoh.edu.sa" target="_blank" rel="noopener" title="بوابة الدخول الموحد">SSO</a>
+
+            <!-- UOH -->
+            <a class="social-btn uoh" href="https://www.uoh.edu.sa/Ar/Colleges/B-Administration/Pages/default.aspx" target="_blank" rel="noopener" title="موقع كلية إدارة الأعمال">UOH</a>
           </div>
         </div>
       </div>
     </footer>
+
   </div>
 
   <script type="module">
