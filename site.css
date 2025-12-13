@@ -266,32 +266,164 @@ footer{
   opacity:.9;
 }
 
+/* =========================
+   Footer social icons (FIXED)
+   ========================= */
+
+/* نخلي .social فقط للحاوية */
 .social{
   display:flex;
   gap:10px;
   align-items:center;
 }
 
-.social a{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.14);
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+/* ✅ هذا هو الزر الأساسي */
+.social-btn{
+  min-width: 48px;
+  height: 44px;
+  padding: 0 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: .5px;
+
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+  backdrop-filter: blur(6px);
 }
 
-.social a:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,.16);
+.social-btn:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.18);
   border-color: var(--accent-border);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-.social svg{
-  width:18px;
-  height:18px;
-  color:#fff;
+/* ✅ مهم جداً: svg يظهر ويتلون */
+.social-btn svg{
+  width: 18px;
+  height: 18px;
+  display:block;
+  fill: currentColor;   /* يخلي الأيقونة تأخذ لون الزر */
+}
+
+/* ألوان خفيفة حسب المنصة */
+.social-btn.x{ color: #e7e7e7; }
+.social-btn.yt{ color: #ff4d4d; }
+.social-btn.sso{ color: #6fb7ff; }
+.social-btn.uoh{ color: #7dd3a7; }
+
+/* =========================
+   Mobile fixes (Responsive)
+   ========================= */
+
+/* منع مشاكل الخلفية الثابتة بالجوال */
+@media (max-width: 900px){
+  .hero-bg{
+    background-attachment: scroll !important; /* بدل fixed */
+  }
+}
+
+/* هيدر أنعم بالجوال + ترتيب العناصر */
+@media (max-width: 900px){
+  .header-row{
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  .logo-wrap{
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .brand-text strong{ font-size: 13px; }
+  .brand-text span{ font-size: 11px; }
+
+  nav{
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .nav-item{
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+
+  .actions{
+    min-width: 0;
+    order: 2;
+    gap: 8px;
+  }
+
+  .icon-btn{
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+}
+
+/* الكارد والصفحة بالجوال */
+@media (max-width: 900px){
+  .page{
+    padding: 18px 12px 14px !important;
+    align-items: flex-start !important;
+  }
+
+  .glass{
+    padding: 16px;
+    border-radius: 16px;
+  }
+}
+
+/* حق صفحة البوت تحديداً (لو نفس الكلاسات موجودة) */
+@media (max-width: 900px){
+  .chat-wrap{ max-width: 100% !important; }
+
+  .chat-box{
+    min-height: 50vh !important;
+  }
+
+  .chat-input{
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chat-input input,
+  .chat-input button{
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+/* الفوتر بالجوال */
+@media (max-width: 900px){
+  .footer-row{
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+  }
+  .rights{
+    width: 100%;
+    font-size: 12px;
+  }
+  .social{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .social-btn{
+    height: 42px;
+    font-size: 13px;
+  }
 }
