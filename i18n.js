@@ -54,7 +54,7 @@ export function initLang() {
       contactCard4Title: "موقع الكلية",
 
       // ===== Footer =====
-      rights: "جميع الحقوق محفوظة لجامعة حائل - كلية ادارة الأعمال 2025-2026"
+      rights: "مشروع تخرج – ابتسام الشغدلي – جميع الحقوق محفوظة لجامعة حائل - كلية إدارة الأعمال 2025-2026",
     },
 
     en: {
@@ -107,7 +107,7 @@ aboutAsp2: "To become an official section within the College of Business Adminis
       contactCard4Title: "College Website",
 
       // ===== Footer =====
-      rights: "All rights reserved to University of Hail – College of Business Administration 2025–2026"
+      rights: "Graduation Project – Ibtisam Alshughadli – All rights reserved to University of Hail - College of Business Administration 2025–2026",
     }
   };
 
